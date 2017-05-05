@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="tufte.css"/>
+    <style media="screen">
+    input {
+      font-family: et-bembo;
+      border: 0;
+      outline: 0;
+      text-align: center;
+      width: 20%;
+      font-size: 25px;
+      background: transparent;
+      border-bottom: 1px solid black;
+    }
+
+    .inp input {
+      max-width: 100px;
+    }
+    </style>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['$$', '$$'], ['\\(','\\)']]}});
+    </script>
+
+    <script type="text/javascript">
+      function gentable() {
+        let p = Number(document.getElementsByClassName("pinput")[0].value);
+        let g = Number(document.getElementsByClassName("ginput")[0].value);
+        let a = Number(document.getElementsByClassName("sinput")[0].value);
+        // alert("p " + p + " " + "g " + g + " " + "a " + a );
+        console.log(genformula(g,a,p));
+
+        document.getElementById("Formula").innerHTML = genformula(g,a,p);
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,"Formula"]);
+
+        let p2 = 1;
+        while (p2 <= a) {
+          console.log(p2);
+          p2 *= 2;
+        }
+      }
+
+      function genformula(g,a,p) {
+        return "$$" + g + "^{" + a + "} \\pmod{" + p + "}$$";
+      }
+    </script>
+
+    <script type="text/javascript" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+    <title>Successive Squares</title>
+  </head>
+
+  <body>
+    <h1>Successive Squares</h1>
+    <p>Successive Squaring helps optimize the number of calculations in order to determine the following quantity: $$  g^{a} \pmod{p}. $$
+    Enter values for $g,a,p$ and get the answer (along with a table of successive squares).</p>
+    <div class="inp">
+      <span>Generator $g$: <input type="number" class="ginput" name="g" value="2"></span>
+      <span>Secret $a$: <input class="sinput" type="number" name="a" value="3"></span>
+      <span>Prime $p$: <input class="pinput" type="number" name="p" value="5"></span>
+      <button type="button" onclick="gentable()">GO</button>
+    </div>
+    <div class="outp" >
+      <p id="Formula"></p>
+    </div>
+  </body>
+
+</html>
