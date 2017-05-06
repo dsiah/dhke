@@ -2,6 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1000">
     <link rel="stylesheet" href="tufte.css"/>
     <style media="screen">
     input {
@@ -25,26 +27,70 @@
     </script>
 
     <script type="text/javascript">
-      function gentable() {
+      function gensolution() {
+        // Get values for g,a,p
         let p = Number(document.getElementsByClassName("pinput")[0].value);
         let g = Number(document.getElementsByClassName("ginput")[0].value);
         let a = Number(document.getElementsByClassName("sinput")[0].value);
-        // alert("p " + p + " " + "g " + g + " " + "a " + a );
-        console.log(genformula(g,a,p));
 
+        // Publish formula and run MathJax on the element w/id = "Formula"
         document.getElementById("Formula").innerHTML = genformula(g,a,p);
-        MathJax.Hub.Queue(["Typeset",MathJax.Hub,"Formula"]);
 
-        let p2 = 1;
+
+        let svalues = [g], curr_g = g, p2 = 2, block = "";
+        // LaTex for Formula & Chart
+        block += "\n $$ \\begin{array}{c | c} " + "g^n & g^n \\pmod{p} \\\\ \\hline " +
+          g + "^1 &" + g  + "\\\\ \\hline ";
+
+        // Generate powers of two while squaring and modding to get the successive squares
         while (p2 <= a) {
-          console.log(p2);
-          p2 *= 2;
+          let val = Math.pow(curr_g, 2) % p;
+          block += g + "^{" + p2 + "} & " + val;
+          if (p2 * 2 <= a) {
+            block += "\\\\ \\hline ";
+          }
+          svalues.push(val);
+          curr_g = val;
+          p2 *= 2
         }
+
+        block += " \\end{array} $$";
+
+        document.getElementById("Formula").innerHTML += block;
+
+        let ans = 1;
+        let ptr = svalues.length - 1, exp = a, decomps = [], ln1 = "", ln2 = "";
+        while (exp > 0 && ptr >= 0) {
+          var pow2 = Math.pow(2, ptr);
+
+          if (pow2 <= exp) {
+            ln1 += " g^{" + pow2 + "} ";
+            ln2 += " " + svalues[ptr] + " ";
+            ans = (ans * svalues[ptr]) % p ;
+            exp -= pow2;
+            ln1 += "";
+            if (exp > 0 && (ptr - 1) >= 0) {
+              ln1 += "*";
+              ln2 += "*";
+            }
+          }
+
+          ptr -= 1;
+        }
+
+        document.getElementById("Formula").innerHTML += "\n$$" + ln1 + " \\equiv $$";
+        document.getElementById("Formula").innerHTML += "\n$$" + ln2 + " \\equiv $$";
+        document.getElementById("Formula").innerHTML += "\n$$"+ ans + " \\pmod{" + p + "} $$";
+
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "Formula"]);
+
       }
+
 
       function genformula(g,a,p) {
         return "$$" + g + "^{" + a + "} \\pmod{" + p + "}$$";
       }
+
     </script>
 
     <script type="text/javascript" async
@@ -62,7 +108,7 @@
       <span>Generator $g$: <input type="number" class="ginput" name="g" value="2"></span>
       <span>Secret $a$: <input class="sinput" type="number" name="a" value="3"></span>
       <span>Prime $p$: <input class="pinput" type="number" name="p" value="5"></span>
-      <button type="button" onclick="gentable()">GO</button>
+      <button type="button" onclick="gensolution()">GO</button>
     </div>
     <div class="outp" >
       <p id="Formula"></p>
