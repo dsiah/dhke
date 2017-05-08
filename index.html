@@ -145,8 +145,6 @@
       }
 
       function gensolution() {
-        // Determine output box (static for now)
-        let outputBox = document.getElementById("Formula").innerHTML;
         // Get values for g,a,p
         let p = Number(document.getElementsByClassName("pinput")[0].value);
         let g = Number(document.getElementsByClassName("ginput")[0].value);
@@ -156,7 +154,7 @@
         let bigA = successive_square(p,g,a);
         let bigB = successive_square(p,g,b);
 
-        document.getElementById("Formula").innerHTML += "Alice generates $$ A \\equiv " + g+"^{"+a + "} \\equiv " +
+        document.getElementById("Formula").innerHTML = "Alice generates $$ A \\equiv " + g+"^{"+a + "} \\equiv " +
           bigA + " \\pmod{" + p + "}.$$ \n";
         document.getElementById("Formula").innerHTML += "Bob generates $$ B \\equiv " + g+"^{"+b + "} \\equiv " +
           bigB + " \\pmod{" + p + "}.$$";
@@ -193,7 +191,6 @@
   <body>
     <h1>Diffie Hellman Key Exchange</h1>
     <p class="subtitle">David Siah and Mathias Wanner</p>
-    <p><a href="/dhke/fsquares.html">Fast Squaring Tool</a></p>
 
     <div class="inp">
       <span>Generator $g$: <input type="number" class="ginput" name="g" value="2"></span>
@@ -209,5 +206,7 @@
     <div class="outp">
       <p id="Formula"></p>
     </div>
+
+    <p><a href="/dhke/fsquares.html">Fast Squaring Tool</a></p>
   </body>
 </html>
