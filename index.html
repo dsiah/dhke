@@ -192,14 +192,16 @@
     <h1>Diffie Hellman Key Exchange</h1>
     <p class="subtitle">David Siah and Mathias Wanner</p>
 
+    <p>The following page is used for walking through the Diffie-Hellman Key Exchange. If you need to a successive squaring calculator <a href="/dhke/fsquares.html">go here</a></p>
+
     <div class="inp">
       <span>Generator $g$: <input type="number" class="ginput" name="g" value="2"></span>
-      <span>Prime $p$: <input class="pinput" type="number" name="p" value="5"></span>
+      <span>Prime $p$: <input class="pinput" type="number" name="p" value="139"></span>
     </div>
 
     <div class="inp">
-      <span>Alice's Secret $a$: <input class="sinputa" type="number" name="a" value="3"></span>
-      <span>Bob's Secret $b$: <input class="sinputb" type="number" name="a" value="4"></span>
+      <span>Alice's Secret $a$: <input class="sinputa" type="number" name="a" value="37"></span>
+      <span>Bob's Secret $b$: <input class="sinputb" type="number" name="a" value="118"></span>
       <button href="#" width="75px" class="button big primary" onclick="gensolution()">Go</button>
     </div>
 
@@ -207,6 +209,6 @@
       <p id="Formula"></p>
     </div>
 
-    <p><a href="/dhke/fsquares.html">Fast Squaring Tool</a></p>
+
   </body>
 </html>
